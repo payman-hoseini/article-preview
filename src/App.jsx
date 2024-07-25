@@ -1,8 +1,21 @@
 import img from './assets/images/drawers.jpg'
 import avatar from './assets/images/avatar-michelle.jpg'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 function App() {
   const [showFlagDesktop , setShowFlagDesktop] = useState(false);
+  const [win ,setWin] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWin(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+}, []);
+
   function clickHandler(){
     setShowFlagDesktop(!showFlagDesktop)
     console.log(window.screen.width)
@@ -19,7 +32,7 @@ function App() {
             </p>
             <p className='text-Desaturated-Dark-Blue mt-5 px-8 md:px-0 text-sm md:text-base leading-5 tracking-wide'>Ever been in a room and felt like something was missing? Perhaps it felt slightly bare and uninviting. I’ve got some simple tips to help you make any room feel complete.</p>
             <div className={`flex justify-between items-center mt-7 relative ${showFlagDesktop ? 'bg-Very-Dark-Grayish-Blue': '' }  px-8 py-3 md:bg-white md:px-0 md:py-0`}>
-              {(window.screen.width > 768) ? <div className='flex  items-center'>
+              {(win > 768) ? <div className='flex  items-center'>
                 <img src={avatar} alt="" className='md:w-14 md:h-14 h-10 w-10 rounded-full'/>
                 <div className='flex flex-col ml-5'>
                   <span className='font-bold text-Very-Dark-Grayish-Blue md:text-sm text-xs'>Michelle Appleton</span>
@@ -47,7 +60,7 @@ function App() {
                 </svg>
               </button>
               {/* Desktop design */}
-              {showFlagDesktop && <><div className='bg-Very-Dark-Grayish-Blue hidden md:flex font-Manrope text-Grayish-Blue  py-4 px-8 rounded-lg shadow-lg absolute -right-20 bottom-20 z-10'>
+              {(showFlagDesktop && win >= 768) && <><div className='bg-Very-Dark-Grayish-Blue hidden md:flex font-Manrope text-Grayish-Blue  py-4 px-8 rounded-lg shadow-lg absolute -right-20 bottom-20 z-10'>
                   <div className='flex items-center space-x-4'>
                     <span className='tracking-widest text-sm'>SHARE</span>
                     <svg className='cursor-pointer' xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="#FFF" d="M18.896 0H1.104C.494 0 0 .494 0 1.104v17.793C0 19.506.494 20 1.104 20h9.58v-7.745H8.076V9.237h2.606V7.01c0-2.583 1.578-3.99 3.883-3.99 1.104 0 2.052.082 2.329.119v2.7h-1.598c-1.254 0-1.496.597-1.496 1.47v1.928h2.989l-.39 3.018h-2.6V20h5.098c.608 0 1.102-.494 1.102-1.104V1.104C20 .494 19.506 0 18.896 0z"/></svg>
